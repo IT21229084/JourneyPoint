@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link, NavLink } from "react-router-dom"
-
+import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const handleMenuTaggler = () => {
@@ -40,7 +40,39 @@ const Navbar = () => {
           <Link to='/login' className='py-2 px-5 border  rounded'>Log In</Link>
           <Link to='/signUp' className='py-2 px-5 border  rounded bg-blue text-white'>Sign Up</Link>
         </div>
+
+        {/* mobile menu */}
+        <div className='md:hidden block'>
+          <button onClick={handleMenuTaggler}>
+            {
+              isMenuOpen ? <FaXmark className='w-5 h-5 text-primary' /> :
+                <FaBarsStaggered className='w-5 h-5 text-primary' />
+            }
+          </button>
+        </div>
       </nav>
+
+      {/* NavItems for mobile */}
+      <div className={`px-4 bg-black py-5 rounded-sm ${isMenuOpen ? "" : "hidden"}`}>
+        <ul>
+          {
+            navItems.map(({ path, title }) => (
+              <li key={path} className='text-base text-white first:text-white py-1'>
+                <NavLink to={path}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "active" : ""}>
+                  {title}
+                </NavLink>
+              </li>
+            ))}
+          <li className='text-white py-1'>
+            <Link to='/login'>Log In</Link>
+          </li>
+        </ul>
+      </div>
+
+
     </header>
   )
 }
