@@ -11,6 +11,7 @@ import About from "../pages/About";
 import CreateJob from "../pages/CreateJob";
 const router = createBrowserRouter([
     {
+        //main path
         path: "/",
         element: <App />,
         children: [
