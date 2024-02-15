@@ -5,12 +5,26 @@ const CreateJob = () => {
   const [selectedOption, setSelectedOption] = useState()
   const {
     register,
-    handleSubmit,
+    handleSubmit, reset,
     formState: { errors },
   } = useForm()
 
   const onSubmit = (data) => {
     console.log(data)
+
+    fetch("http://localhost:5000/postJob", {
+      method: 'post',
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data)
+    }).then(res =>
+      res.json()).then((result) => {
+        console.log(result)
+        if (result.acknowledged === true) {
+          alert("Job Posted Successfully!")
+        }
+        reset()
+
+      })
   }
   const options = [
     { value: "JavaScript", label: "JavaScript" },
