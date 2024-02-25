@@ -46,9 +46,10 @@ const MyJobs = () => {
     setJobs(filter)
     setIsLoading(false)
   }
+  // console.log(jobs)
   const handleDelete = (id) => {
     // console.log(id)
-    fetch(`http://localhost:5000/job/${id}`, {
+    fetch(`http://localhost:5000/jobs/${id}`, {
       method: "DELETE"
     }).then(res => res.json).then(data => {
       if (data.acknowledged === true) {
@@ -139,7 +140,7 @@ const MyJobs = () => {
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           <i className="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                          <button><Link to={`editJob/${job?._id}`}>Edit</Link></button>
+                          <button><Link to={`/editJob/${job?._id}`}>Edit</Link></button>
                         </td>
                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                           <button onClick={() => handleDelete(job._id)} className='bg-red-700 py-2 px-6 text-white rounded-sm'>Delete</button>

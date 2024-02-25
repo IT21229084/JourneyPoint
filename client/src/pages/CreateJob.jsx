@@ -10,6 +10,7 @@ const CreateJob = () => {
   } = useForm()
 
   const onSubmit = (data) => {
+    data.skills = selectedOption
     console.log(data)
 
     fetch("http://localhost:5000/postJob", {

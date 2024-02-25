@@ -45,6 +45,7 @@ async function run() {
         app.get("/jobs", async (req, res) => {
             const jobs = await jobsAll.find({}).toArray()
             res.send(jobs)
+
         })
 
         //get jobs by email 
@@ -55,8 +56,53 @@ async function run() {
             res.send(jobs)
         })
 
+        //get job
+
+        // app.get("/jobs/:id", async (req, res) => {
+        //     const id = req.params.id
+        //     const job = await jobsAll.findOne({
+        //         _id: new ObjectId(id)
+        //     })
+        //     res.send(job)
+        //     console.log(job)
+        // })
+        app.get("/jobs/:id", async (req, res) => {
+            try {
+                const id = req.params.id
+                const filter = { _id: new ObjectId(id) }
+                const job = await jobsAll.findOne(filter)
+                console.log(id);
+                if (!job) {
+                    return res.status(404).send("Job not found");
+                }
+
+                res.send(job);
+                console.log(job);
+
+            } catch (error) {
+                console.error("Error fetching job:", error);
+                res.status(500).send("Internal Server Error");
+            }
+        });
+
+        //Update job
+
+        app.put("/update/:id", async (req, res) => {
+            const id = req.params.id
+            const jobData = req.body
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: {
+                    ...jobData 
+                }
+            }
+            const result = await jobsAll.updateOne(filter, updateDoc, options)
+            res.send(result)
+        })
+
         //delete a job
-        app.delete('/job/:id', async (req, res) => {
+        app.delete('/jobs/:id', async (req, res) => {
             const id = req.params.id
             const filter = { _id: new ObjectId(id) }
             const result = await jobsAll.deleteOne(filter)
@@ -72,7 +118,7 @@ async function run() {
     }
 }
 
-
+ 
 run().catch(console.dir);
 
 
